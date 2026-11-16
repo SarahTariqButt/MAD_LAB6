@@ -1,0 +1,60 @@
+BSEF24M020-SARAH TARIQ
+
+
+Q2)
+router.replace() =>  Replaces the current screen on the top of the navigation stack with the intended screen and on pressing back we can't return to the replaced screen because its entry has been removed from the stack.
+
+router.push()  => pushes the intended screen onto the top of the navigation stack without removing the current screen from the stack and on pressing back we can  return to the previous screen because it is still present in the stack.
+
+
+Q4)
+The parent Tab navigator's header is disabled using headerShown:false because Settings contains its own nested Stack navigator.
+If parent header is not disabled then two headers will appear.Disabling the parent header ensures that only the nested Stack header is displayed while the bottom tabs remain visible.
+
+
+Q5)
+
+A.
+What is wrong?  Both the Root Stack Navigator and Tab Navigator have their headers enabled.
+What happens?  Two headers appear on the screen because both navigators have their headers enabled.
+Corrected Code:
+<Stack>
+<Stack.Screen name="(tabs)" 
+ options={{headerShown: false}}/>
+</Stack>
+
+
+
+B.
+What is wrong?  Screen name is written as index.js instead of index and tabBarIcon property is missing.
+What happens? Books tab don't get configured correctly because screen name does not match the route and  Tab icons don't get displayed
+Corrected Code:
+<Tabs>
+<Tabs.Screen name="index" options={{ title: "Books",tabBarIcon:({color})=><Text style={{color:color, fontSize:24}}>📚</Text> } />
+</Tabs>
+
+
+C.
+What is wrong? The parameter name bookId does not match the dynamic route parameter [id].
+What happens? bookId becomes undefined so the app cannot find the book and may display "Book not Found"
+Corrected Code:
+const {id} = useLocalSearchParams();
+
+
+D.
+What is wrong? The whole book object is being passed instead of the id of the book.
+What happens? The book object may be converted into a string like [object Object]
+The required id parameter is missing so navigation may fail.
+Corrected Code:
+router.push({
+pathname: "/book/[id]",
+params: { id: book.id },
+});
+
+
+
+
+
+
+
+
